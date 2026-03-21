@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import BlogEditorForm from "@/components/admin/blogs/BlogEditorForm";
 import { getBlogById } from "@/lib/actions/blog.actions";
 
+export const dynamic = "force-dynamic";
+
 // 1. Change the type so TypeScript knows params is a Promise
 export default async function EditBlogPage({ params }: { params: Promise<{ id: string }> }) {
   
