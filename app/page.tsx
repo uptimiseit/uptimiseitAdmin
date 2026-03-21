@@ -1,65 +1,112 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import { ShieldCheck, Lock, Fingerprint, Cpu } from "lucide-react";
+
+export default function AdminSplashPage() {
+  const router = useRouter();
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    // 1. Simulate a secure initialization progress bar
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(progressInterval);
+          return 100;
+        }
+        return prev + 2.5; // Fills up over ~2 seconds
+      });
+    }, 50);
+
+    // 2. Redirect to the actual login page after 2.5 seconds
+    const redirectTimeout = setTimeout(() => {
+      router.push("/admin/login");
+    }, 2500);
+
+    // Cleanup intervals and timeouts on unmount
+    return () => {
+      clearInterval(progressInterval);
+      clearTimeout(redirectTimeout);
+    };
+  }, [router]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen bg-[#020617] flex flex-col items-center justify-center relative overflow-hidden font-sans selection:bg-cyan-500/30">
+      
+      {/* Ambient Security Glows */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-600/10 blur-[120px] rounded-full pointer-events-none"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-cyan-500/10 blur-[80px] rounded-full pointer-events-none"></div>
+
+      {/* Abstract Grid Background */}
+      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5 pointer-events-none"></div>
+
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="relative z-10 flex flex-col items-center"
+      >
+        {/* Core Icon Assembly */}
+        <div className="relative w-32 h-32 mb-8 flex items-center justify-center">
+          {/* Rotating outer dash ring */}
+          <motion.div 
+            animate={{ rotate: 360 }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            className="absolute inset-0 rounded-full border-2 border-dashed border-slate-700"
+          ></motion.div>
+          
+          {/* Inner glowing ring */}
+          <div className="absolute inset-2 rounded-full border border-indigo-500/30 bg-indigo-500/10 backdrop-blur-sm shadow-[0_0_30px_rgba(99,102,241,0.2)]"></div>
+          
+          {/* Center Shield Icon */}
+          <ShieldCheck className="w-12 h-12 text-cyan-400 relative z-10" strokeWidth={1.5} />
+          
+          {/* Ping effect */}
+          <div className="absolute inset-0 rounded-full border border-cyan-400 animate-ping opacity-20"></div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        {/* Branding & Status */}
+        <h1 className="text-3xl font-extrabold text-white tracking-tight mb-2 flex items-center gap-3">
+          Uptimise <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">OS</span>
+        </h1>
+        
+        <div className="flex items-center gap-2 text-slate-400 text-sm font-mono mb-12 h-6">
+          <Cpu size={14} className="animate-pulse text-indigo-400" />
+          <motion.span
+            key={progress < 40 ? "init" : progress < 80 ? "secure" : "auth"}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="tracking-widest uppercase text-xs"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {progress < 40 && "Initializing Core Environment..."}
+            {progress >= 40 && progress < 80 && "Establishing Secure Connection..."}
+            {progress >= 80 && "Routing to Authentication..."}
+          </motion.span>
         </div>
-      </main>
+
+        {/* Progress Bar */}
+        <div className="w-64 sm:w-80 h-1.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+          <motion.div 
+            className="h-full bg-gradient-to-r from-indigo-500 to-cyan-400 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.8)]"
+            style={{ width: `${progress}%` }}
+            transition={{ ease: "linear" }}
+          />
+        </div>
+
+        {/* Security Badges */}
+        <div className="flex items-center gap-6 mt-12 opacity-40">
+          <div className="flex items-center gap-2 text-[10px] font-mono text-white tracking-widest uppercase">
+            <Lock size={12} /> AES-256
+          </div>
+          <div className="flex items-center gap-2 text-[10px] font-mono text-white tracking-widest uppercase">
+            <Fingerprint size={12} /> Zero-Trust
+          </div>
+        </div>
+
+      </motion.div>
     </div>
   );
 }
