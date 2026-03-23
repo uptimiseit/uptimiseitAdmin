@@ -1,12 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { Plus, Layout } from "lucide-react";
-// import { getPages } from "@/lib/actions/page.actions";
-// import PagesTable from "@/components/admin/pages/PagesTable";
 
 export default async function PagesListingRoute() {
-  // 1. Fetch data on the server
-  // const pages = await getPages(); 
+ 
   const pages = []; // Mocked for now
 
   return (
@@ -49,8 +46,6 @@ export default async function PagesListingRoute() {
         </div>
       </div>
 
-      {/* The Interactive Client-Side Table */}
-      {/* <PagesTable initialData={pages} /> */}
     </div>
   );
 }

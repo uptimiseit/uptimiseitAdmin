@@ -52,8 +52,7 @@ export default function BlogEditorForm({ initialData, isEditMode = false }: Blog
     }
   };
 
-  // Handle the Image Upload
-// Handle the Image Upload
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -71,11 +70,12 @@ export default function BlogEditorForm({ initialData, isEditMode = false }: Blog
       const { signedUrl, cdnUrl } = await res.json();
 
       // 3. Upload the file DIRECTLY to AWS S3 (bypassing our Next.js server)
+      // ---> THIS IS WHERE YOU ADD THE HEADERS <---
       const uploadRes = await fetch(signedUrl, {
         method: "PUT",
         body: file,
         headers: {
-          "Content-Type": file.type,
+          "Content-Type": file.type, 
         },
       });
 
