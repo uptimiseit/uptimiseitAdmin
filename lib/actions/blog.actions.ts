@@ -124,7 +124,7 @@ export async function updateBlogPost(id: number, formData: any) {
 }
 
 
-// Add this to the bottom of lib/actions/blog.actions.ts
+// Add this to the bottom of lib/actions/blog.actions.ts    lib/actions/blog.actions.ts
 
 export async function deleteBlogPost(id: number) {
   try {
