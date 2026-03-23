@@ -139,10 +139,14 @@ import {
   CheckCircle2, Clock, AlertCircle,
   Edit
 } from "lucide-react";
-
-// 1. Import your new fetch function
 import { getBlogs } from "@/lib/actions/blog.actions";
 import DeleteBlogButton from "@/components/admin/blogs/DeleteBlogButton";
+
+
+
+export const dynamic = "force-dynamic";
+
+
 
 export default async function BlogsListingPage() {
   // 2. Fetch the real data directly on the server
