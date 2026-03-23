@@ -11,7 +11,7 @@ import DeleteBlogButton from "@/components/admin/blogs/DeleteBlogButton";
 export const dynamic = "force-dynamic";
 
 export default async function BlogsListingPage() {
-  // 2. Fetch the real data directly on the server
+  // 2. Fetch the real data directly on the serveruyuihiuhiuhi
   const response = await getBlogs();
   const realBlogs = response.data || [];
 
