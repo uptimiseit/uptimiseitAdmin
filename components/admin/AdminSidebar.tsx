@@ -68,6 +68,7 @@ export default function AdminSidebar() {
           <p className="px-3 text-[10px] font-black uppercase tracking-widest text-slate-600 mb-3">Business</p>
           <div className="space-y-1">
             <NavLink href="/admin/inquiries" icon={MessageSquare} label="Inquiries" />
+            <NavLink href="/admin/leads" icon={Users} label="Leads" />
             <NavLink href="/admin/partners" icon={Briefcase} label="Partners" />
             <NavLink href="/admin/users" icon={Users} label="Users & Roles" />
           </div>
