@@ -8,6 +8,8 @@ import {
 import { db } from "@/lib/db";
 import { seoMetadata } from "@/db/schema";
 import { desc } from "drizzle-orm";
+import DeleteBlogButton from "@/components/admin/blogs/DeleteBlogButton";
+import DeleteSeoButton from "@/components/admin/seo/DeleteSeoButton";
 
 export const dynamic = "force-dynamic";
 
@@ -158,6 +160,9 @@ export default async function SeoListingPage() {
                     >
                       <Edit size={18} />
                     </Link>
+
+                     <DeleteSeoButton id={seo.id} title={seo.metaTitle || seo.pageTitle || "Untitled"} entityType={seo.entityType} />
+                    
                   </td>
                   
                 </tr>
