@@ -7,7 +7,7 @@ export default async function PagesListingRoute() {
   const pages = []; // Mocked for now
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
+    <div className="p-10 space-y-8">
       {/* Header */}
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div>

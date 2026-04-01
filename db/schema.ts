@@ -146,3 +146,31 @@ export const leadNotes = pgTable("lead_notes", {
   createdBy: varchar("created_by", { length: 100 }).notNull(), // Who wrote the note
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+
+
+// Add this to the bottom of db/schema.ts
+
+export const siteSettings = pgTable("site_settings", {
+  id: serial("id").primaryKey(), // We will always use ID 1
+  
+  // Brand Info
+  companyName: varchar("company_name", { length: 255 }).notNull().default("Uptimise IT"),
+  siteUrl: varchar("site_url", { length: 255 }).notNull().default("https://uptimiseit.com"),
+  logoUrl: varchar("logo_url", { length: 500 }),
+  faviconUrl: varchar("favicon_url", { length: 500 }),
+  
+  // Global Contact Info
+  supportEmail: varchar("support_email", { length: 255 }),
+  salesEmail: varchar("sales_email", { length: 255 }),
+  contactPhone: varchar("contact_phone", { length: 50 }),
+  address: text("address"),
+  
+  // JSONB for flexible social media links
+  socialLinks: jsonb("social_links"), // { linkedin: "", twitter: "", instagram: "", github: "" }
+  
+  // System Toggles
+  maintenanceMode: boolean("maintenance_mode").default(false),
+  
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
