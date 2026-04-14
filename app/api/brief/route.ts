@@ -40,6 +40,7 @@
 import { db } from '@/lib/db';
 import { briefs } from '@/db/schema';
 import { NextResponse } from 'next/server';
+import { desc } from 'drizzle-orm';
 
 /**
  * 1. OPTIONS Handler (Preflight Request)
@@ -106,5 +107,24 @@ export async function POST(req: Request) {
       { error: 'Internal Server Error: Transmission Failed.' },
       { status: 500, headers: corsHeaders }
     );
+  }
+}
+
+
+export async function GET() {
+  try {
+    // Fetch briefs ordered by latest first
+    const data = await db.select().from(briefs).orderBy(desc(briefs.createdAt));
+
+    return NextResponse.json(
+      { success: true, data },
+      { 
+        status: 200, 
+        headers: { 'Access-Control-Allow-Origin': '*' } 
+      }
+    );
+  } catch (error) {
+    console.error("GET_BRIEFS_ERROR:", error);
+    return NextResponse.json({ error: "Failed to fetch briefs" }, { status: 500 });
   }
 }

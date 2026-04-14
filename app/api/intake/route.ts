@@ -1,6 +1,7 @@
 import { db } from '@/lib/db';
 import { projectIntake } from '@/db/schema';
 import { NextResponse } from 'next/server';
+import { desc } from 'drizzle-orm';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -34,5 +35,22 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: 'Intake successful', id: result[0].id }, { status: 201, headers: corsHeaders });
   } catch (error) {
     return NextResponse.json({ error: 'System Error' }, { status: 500, headers: corsHeaders });
+  }
+}
+
+export async function GET() {
+  try {
+    const data = await db.select().from(projectIntake).orderBy(desc(projectIntake.createdAt));
+
+    return NextResponse.json(
+      { success: true, data },
+      { 
+        status: 200, 
+        headers: { 'Access-Control-Allow-Origin': '*' } 
+      }
+    );
+  } catch (error) {
+    console.error("GET_INTAKE_ERROR:", error);
+    return NextResponse.json({ error: "Failed to fetch intake logs" }, { status: 500 });
   }
 }
