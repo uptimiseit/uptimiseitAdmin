@@ -187,3 +187,17 @@ export const briefs = pgTable('briefs', {
   message: text('message').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
 });
+
+
+
+// db/schema.ts
+export const projectIntake = pgTable('project_intake', {
+  id: serial('id').primaryKey(),
+  fullName: varchar('full_name', { length: 255 }).notNull(),
+  workEmail: varchar('work_email', { length: 255 }).notNull(),
+  companyName: varchar('company_name', { length: 255 }),
+  companyStage: varchar('company_stage', { length: 100 }).notNull(),
+  linkedinUrl: text('linkedin_url'),
+  projectContext: text('project_context').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+});
