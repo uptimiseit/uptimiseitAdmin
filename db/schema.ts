@@ -174,3 +174,16 @@ export const siteSettings = pgTable("site_settings", {
   
   updatedAt: timestamp("updated_at").defaultNow(),
 });
+
+
+// db/schema.ts
+// import { pgTable, serial, text, varchar, timestamp } from 'drizzle-orm/pg-core';
+
+export const briefs = pgTable('briefs', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 255 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull(),
+  department: varchar('department', { length: 100 }).notNull(),
+  message: text('message').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+});

@@ -13,8 +13,6 @@ export async function GET(request: Request) {
     // Fetch ONLY published blogs, newest first
     const publishedBlogs = await db
       .select({
-        // We selectively return fields so we don't send massive HTML content payloads
-        // for the listing page, which keeps the API lightning fast.
         id: blogs.id,
         title: blogs.title,
         slug: blogs.slug,
