@@ -10,20 +10,21 @@ export async function saveBlogPost(formData: any) {
     const author = formData.author || "Saurabh Sharma";
 
     // 1. Insert the Blog into the database using the schema
-    await db.insert(blogs).values({
-      title: formData.title,
-      slug: formData.slug,
-      excerpt: formData.excerpt,
-      content: formData.content,
-      category: formData.category,
-      tags: formData.tags,
-      status: formData.status,
-      seoTitle: formData.seoTitle,
-      seoDesc: formData.seoDesc,
-      focusKeyword: formData.focusKeyword,
-      featuredImage: formData.featuredImage,
-      author: author,
-    });
+   await db.insert(blogs).values({
+  title: formData.title,
+  slug: formData.slug,
+  excerpt: formData.excerpt,
+  content: formData.content,
+  category: formData.category,
+  subCategory: formData.subCategory, 
+  tags: formData.tags,
+  status: formData.status,
+  seoTitle: formData.seoTitle,
+  seoDesc: formData.seoDesc,
+  focusKeyword: formData.focusKeyword,
+  featuredImage: formData.featuredImage,
+  author: author,
+});
 
     // 2. Insert the Audit Log
     await db.insert(activityLogs).values({
@@ -85,22 +86,23 @@ export async function updateBlogPost(id: number, formData: any) {
     const author = formData.author || "Saurabh Sharma";
 
     // Update the database record
-    await db.update(blogs)
-      .set({
-        title: formData.title,
-        slug: formData.slug,
-        excerpt: formData.excerpt,
-        content: formData.content,
-        category: formData.category,
-        tags: formData.tags,
-        status: formData.status,
-        seoTitle: formData.seoTitle,
-        seoDesc: formData.seoDesc,
-        focusKeyword: formData.focusKeyword,
-        featuredImage: formData.featuredImage,
-        author: author,
-      })
-      .where(eq(blogs.id, id)); // Ensure we only update this specific ID
+   await db.update(blogs)
+  .set({
+    title: formData.title,
+    slug: formData.slug,
+    excerpt: formData.excerpt,
+    content: formData.content,
+    category: formData.category,
+    subCategory: formData.subCategory, 
+    tags: formData.tags,
+    status: formData.status,
+    seoTitle: formData.seoTitle,
+    seoDesc: formData.seoDesc,
+    focusKeyword: formData.focusKeyword,
+    featuredImage: formData.featuredImage,
+    author: author,
+  })
+  .where(eq(blogs.id, id));// Ensure we only update this specific ID
 
     // Log the activity
     await db.insert(activityLogs).values({

@@ -9,6 +9,8 @@ export const blogs = pgTable("blogs", {
   excerpt: text("excerpt"),
   content: text("content").notNull(),
   category: varchar("category", { length: 100 }),
+  // SubCategory: varchar("sub_category", { length: 100 }),
+  subCategory: text("sub_category"), 
   tags: varchar("tags", { length: 255 }),
   status: varchar("status", { length: 50 }).default("DRAFT"),
   seoTitle: varchar("seo_title", { length: 255 }),

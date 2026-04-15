@@ -5,23 +5,14 @@ import { eq, desc } from "drizzle-orm";
 
 export async function GET(request: Request) {
   try {
-    // Optional: Get a limit from the URL (e.g., /api/blogs?limit=10)
     const { searchParams } = new URL(request.url);
     const limitParam = searchParams.get("limit");
     const limit = limitParam ? Number(limitParam) : 50;
 
-    // Fetch ONLY published blogs, newest first
+    // CHANGE: Removed the specific fields from .select()
+    // By calling .select() with NO arguments, Drizzle fetches ALL columns from the table
     const publishedBlogs = await db
-      .select({
-        id: blogs.id,
-        title: blogs.title,
-        slug: blogs.slug,
-        excerpt: blogs.excerpt,
-        featuredImage: blogs.featuredImage,
-        category: blogs.category,
-        author: blogs.author,
-        createdAt: blogs.createdAt,
-      })
+      .select() 
       .from(blogs)
       .where(eq(blogs.status, "PUBLISHED"))
       .orderBy(desc(blogs.createdAt))
