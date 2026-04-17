@@ -180,16 +180,17 @@ export const siteSettings = pgTable("site_settings", {
 
 // db/schema.ts
 // import { pgTable, serial, text, varchar, timestamp } from 'drizzle-orm/pg-core';
-
 export const briefs = pgTable('briefs', {
   id: serial('id').primaryKey(),
   name: varchar('name', { length: 255 }).notNull(),
   email: varchar('email', { length: 255 }).notNull(),
+  countryCode: varchar('country_code', { length: 10 }).notNull(), // New Field
+  mobileNumber: varchar('mobile_number', { length: 20 }).notNull(), // New Field
   department: varchar('department', { length: 100 }).notNull(),
   message: text('message').notNull(),
+  documentUrl: text('document_url'), // New Field for file path/link
   createdAt: timestamp('created_at').defaultNow(),
 });
-
 
 
 // db/schema.ts
