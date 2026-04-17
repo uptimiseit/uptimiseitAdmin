@@ -7,6 +7,7 @@ import {
 } from "lucide-react";
 import { getBlogs } from "@/lib/actions/blog.actions";
 import DeleteBlogButton from "@/components/admin/blogs/DeleteBlogButton";
+import HomeToggle from "@/components/admin/blogs/HomeToggle";
 
 export const dynamic = "force-dynamic";
 
@@ -76,16 +77,18 @@ export default async function BlogsListingPage() {
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="bg-slate-50 border-b border-slate-100 text-xs uppercase text-slate-500 font-bold tracking-wider">
-              <tr>
-                <th className="px-6 py-4">Title</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4">SEO</th>
-                <th className="px-6 py-4">Category</th>
-                <th className="px-6 py-4">Date</th>
-                <th className="px-6 py-4 ">Actions</th>
-              </tr>
-            </thead>
+            {/* <thead className="bg-slate-50 border-b border-slate-100 text-xs uppercase text-slate-500 font-bold tracking-wider"> */}
+         <thead className="bg-slate-50 border-b border-slate-100 text-xs uppercase text-slate-500 font-bold tracking-wider">
+  <tr>
+    <th className="px-6 py-4">Title</th>
+    <th className="px-6 py-4">Status</th>
+    <th className="px-6 py-4">SEO</th>
+    <th className="px-6 py-4">Category</th>
+    <th className="px-6 py-4">Is Home</th> {/* Matches True/False */}
+    <th className="px-6 py-4">Date</th>
+    <th className="px-6 py-4 text-right">Actions</th>
+  </tr>
+</thead>
             <tbody className="divide-y divide-slate-100">
               
               {/* Handle Empty State */}
@@ -99,60 +102,62 @@ export default async function BlogsListingPage() {
 
               {/* Map over REAL Database Blogs */}
               {realBlogs.map((blog) => (
-                <tr key={blog.id} className="hover:bg-slate-50 transition-colors group">
-                  <td className="px-6 py-4">
-                    <p className="font-bold text-slate-900 mb-0.5">{blog.title}</p>
-                    <p className="text-xs text-slate-500 font-mono">/{blog.slug}</p>
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold ${
-                      blog.status === 'PUBLISHED' ? 'bg-emerald-100 text-emerald-800' :
-                      blog.status === 'DRAFT' ? 'bg-amber-100 text-amber-800' :
-                      'bg-blue-100 text-blue-800'
-                    }`}>
-                      {blog.status === 'PUBLISHED' && <CheckCircle2 size={12}/>}
-                      {blog.status === 'DRAFT' && <FileText size={12}/>}
-                      {blog.status === 'SCHEDULED' && <Clock size={12}/>}
-                      {blog.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4">
-                    {blog.seoTitle && blog.seoDesc ? (
-                      <span className="text-emerald-600 text-xs font-bold flex items-center gap-1"><CheckCircle2 size={14}/> Complete</span>
-                    ) : (
-                      <span className="text-red-600 text-xs font-bold flex items-center gap-1"><AlertCircle size={14}/> Needs Work</span>
-                    )}
-                  </td>
-                  <td className="px-6 py-4 text-slate-600 font-medium">{blog.category || "Uncategorized"}</td>
-                  
-                  {/* Format the PostgreSQL Timestamp nicely */}
-                  <td className="px-6 py-4 text-slate-500 text-xs">
-                    {blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', {
-                      month: 'short', day: 'numeric', year: 'numeric'
-                    }) : "N/A"}
-                  </td>
+             <tr key={blog.id} className="hover:bg-slate-50 transition-colors group">
+  <td className="px-6 py-4">
+    <p className="font-bold text-slate-900 mb-0.5">{blog.title}</p>
+    <p className="text-xs text-slate-500 font-mono">/{blog.slug}</p>
+  </td>
+  
+  <td className="px-6 py-4">
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold ${
+      blog.status === 'PUBLISHED' ? 'bg-emerald-100 text-emerald-800' :
+      blog.status === 'DRAFT' ? 'bg-amber-100 text-amber-800' :
+      'bg-blue-100 text-blue-800'
+    }`}>
+      {blog.status === 'PUBLISHED' && <CheckCircle2 size={12}/>}
+      {blog.status}
+    </span>
+  </td>
 
-                  <td className="px-6 py-4 flex items-end gap-3 text-end">
-                    <Link href={`/admin/blogs/${blog.id}`} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors inline-block">
-                      <Edit size={18} />
-                    </Link>
+  <td className="px-6 py-4">
+    {blog.seoTitle && blog.seoDesc ? (
+      <span className="text-emerald-600 text-xs font-bold flex items-center gap-1"><CheckCircle2 size={14}/> Complete</span>
+    ) : (
+      <span className="text-red-600 text-xs font-bold flex items-center gap-1"><AlertCircle size={14}/> Needs Work</span>
+    )}
+  </td>
 
-  <DeleteBlogButton id={blog.id} title={blog.title} />
+  <td className="px-6 py-4 text-slate-600 font-medium">
+    {blog.category || "Uncategorized"}
+  </td>
 
-                  </td>
-                  <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
-  {/* The Edit Link */}
-  {/* <Link 
-    href={`/admin/blogs/${blog.id}`} 
-    title="Edit Post"
-    className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors inline-block"
-  >
-    <MoreVertical size={18} />
-  </Link> */}
+  {/* --- UPDATED SECTION: SHOW TRUE / FALSE --- */}
+  {/* <td className="px-6 py-4">
+    {blog.isHome ? (
+      <span className="text-xs font-black text-indigo-600 uppercase tracking-widest">True</span>
+    ) : (
+      <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">False</span>
+    )}
+  </td> */}
 
-  {/* The Delete Button Component */}
-</td>
-                </tr>
+  <td className="px-6 py-4">
+     {/* Integrated Toggle Component */}
+     <HomeToggle id={blog.id} initialValue={blog.isHome || false} />
+  </td>
+
+  <td className="px-6 py-4 text-slate-500 text-xs">
+    {blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', {
+      month: 'short', day: 'numeric', year: 'numeric'
+    }) : "N/A"}
+  </td>
+
+  <td className="px-6 py-4 flex items-center gap-3 justify-end">
+    <Link href={`/admin/blogs/${blog.id}`} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+      <Edit size={18} />
+    </Link>
+    <DeleteBlogButton id={blog.id} title={blog.title} />
+  </td>
+</tr>
               ))}
             </tbody>
           </table>

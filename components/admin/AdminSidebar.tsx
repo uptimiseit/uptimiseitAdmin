@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { 
   LayoutDashboard, FileText, Briefcase, Search, 
   Image as ImageIcon, MessageSquare, LogOut, 
@@ -11,6 +11,18 @@ import Image from "next/image";
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const handleSignOut = () => {
+    // 1. Clear session markers (if you use tokens, clear them here)
+    // Note: We keep 'admin_saved_email' if you want "Remember Me" to persist 
+    // across sessions, but clear the active authentication state.
+    
+    // If you have an auth cookie or token:
+    // document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    
+    // 2. Redirect to login page
+    router.push("/admin/login");
+  };
 
   // Reusable Nav Link Component for consistent styling & active states
   const NavLink = ({ href, icon: Icon, label }: { href: string, icon: any, label: string }) => {
@@ -90,11 +102,21 @@ export default function AdminSidebar() {
       </div>
 
       {/* Footer / Sign Out */}
-      <div className="p-4 border-t border-slate-800">
-        <button className="flex items-center gap-3 px-3 py-2 w-full hover:bg-slate-800/50 hover:text-white text-slate-400 rounded-lg font-medium transition-colors">
+      {/* <div className="p-4 border-t border-slate-800"> */}
+        {/* <button className="flex items-center gap-3 px-3 py-2 w-full hover:bg-slate-800/50 hover:text-white text-slate-400 rounded-lg font-medium transition-colors">
           <LogOut size={18} /> Sign Out
+        </button> */}
+
+        <div className="p-4 border-t border-slate-800">
+        <button 
+          onClick={handleSignOut}
+          className="flex items-center gap-3 px-3 py-2 w-full hover:bg-red-500/10 hover:text-red-400 text-slate-400 rounded-lg font-medium transition-colors group"
+        >
+          <LogOut size={18} className="group-hover:translate-x-1 transition-transform" /> 
+          Sign Out
         </button>
       </div>
+      {/* </div> */}
     </aside>
   );
 }

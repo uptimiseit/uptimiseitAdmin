@@ -18,6 +18,8 @@ export const blogs = pgTable("blogs", {
   focusKeyword: varchar("focus_keyword", { length: 255 }),
   author: varchar("author", { length: 255 }).default("Saurabh Sharma"),
   featuredImage: varchar("featured_image", { length: 500 }),
+  isHome: boolean('is_home').default(false),
+  relatedBlogs: text('related_blogs').default('[]'),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
