@@ -556,7 +556,7 @@ export default function BlogEditorForm({ initialData, isEditMode = false }: Blog
     
     const payload = {
       title, slug, excerpt, content, 
-      category, subCategory, // Included in payload
+      category, subCategory,
       tags, seoTitle, seoDesc, focusKeyword, 
       status: "PUBLISHED", author, featuredImage
     };

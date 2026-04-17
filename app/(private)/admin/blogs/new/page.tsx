@@ -8,7 +8,6 @@ export const metadata = {
 export default function NewBlogPage() {
   return (
     <div className="max-w-400 mx-auto">
-      {/* Pass null or empty object for initialData since it's a new post */}
       <BlogEditorForm isEditMode={false} />
     </div>
   );

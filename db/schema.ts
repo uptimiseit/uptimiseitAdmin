@@ -201,5 +201,9 @@ export const projectIntake = pgTable('project_intake', {
   companyStage: varchar('company_stage', { length: 100 }).notNull(),
   linkedinUrl: text('linkedin_url'),
   projectContext: text('project_context').notNull(),
+  // --- New Fields ---
+  countryCode: varchar('country_code', { length: 10 }).notNull(),
+  mobileNumber: varchar('mobile_number', { length: 20 }).notNull(),
+  documentUrl: text('document_url'), // Stores the link to the uploaded file
   createdAt: timestamp('created_at').defaultNow(),
 });
