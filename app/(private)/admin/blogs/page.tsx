@@ -2,8 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { 
   Plus, FileText, Search,
-  CheckCircle2, Clock, AlertCircle,
-  Edit
+  CheckCircle2, AlertCircle, Edit
 } from "lucide-react";
 import { getBlogs } from "@/lib/actions/blog.actions";
 import DeleteBlogButton from "@/components/admin/blogs/DeleteBlogButton";
@@ -12,19 +11,17 @@ import HomeToggle from "@/components/admin/blogs/HomeToggle";
 export const dynamic = "force-dynamic";
 
 export default async function BlogsListingPage() {
-  // 2. Fetch the real data directly on the serveruyuihiuhiuhi
   const response = await getBlogs();
   const realBlogs = response.data || [];
 
-  // Calculate some quick stats for your cards
+  // Summary Stats
   const publishedCount = realBlogs.filter((b) => b.status === "PUBLISHED").length;
   const draftCount = realBlogs.filter((b) => b.status === "DRAFT").length;
-  const missingSeoCount = realBlogs.filter((b) => !b.seoTitle || !b.seoDesc).length;
+  const missingSeoCount = realBlogs.filter((b) => !b.seoTitle?.trim() || !b.seoDesc?.trim()).length;
 
   return (
     <div className="p-10 space-y-8 pb-20">
-      
-      {/* SECTION A: Header */}
+      {/* Header */}
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-200">
         <div>
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
@@ -44,13 +41,13 @@ export default async function BlogsListingPage() {
         </div>
       </header>
 
-      {/* SECTION B: Dynamic Summary Cards */}
+      {/* Stats Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: "Total Posts", count: realBlogs.length, color: "text-slate-900" },
           { label: "Published", count: publishedCount, color: "text-emerald-600" },
           { label: "Drafts", count: draftCount, color: "text-amber-600" },
-          { label: "SEO Issues", count: missingSeoCount, color: "text-red-600" },
+          { label: "SEO Issues", count: missingSeoCount, color: "text-rose-600" },
         ].map((stat, i) => (
           <div key={i} className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
             <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">{stat.label}</p>
@@ -59,10 +56,8 @@ export default async function BlogsListingPage() {
         ))}
       </div>
 
-      {/* SECTION C & D: Filters and Data Table */}
+      {/* Data Table Container */}
       <div className="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
-        
-        {/* Toolbar */}
         <div className="p-4 border-b border-slate-100 bg-slate-50/50 flex flex-col sm:flex-row gap-4 justify-between items-center">
           <div className="relative w-full sm:w-96">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={16} />
@@ -74,74 +69,77 @@ export default async function BlogsListingPage() {
           </div>
         </div>
 
-        {/* Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-  <thead className="bg-slate-50 border-b border-slate-100 text-xs uppercase text-slate-500 font-bold tracking-wider">
-    <tr>
-      <th className="px-6 py-4">Title</th>
-      <th className="px-6 py-4">Status</th>
-      <th className="px-6 py-4">SEO</th>
-      <th className="px-6 py-4">Category</th>
-      <th className="px-6 py-4">Is Home</th>
-      <th className="px-6 py-4">Date</th>
-      <th className="px-6 py-4 text-right">Actions</th>
-    </tr>
-  </thead>
-  <tbody className="divide-y divide-slate-100">
-    {/* 1. Empty State - Updated colSpan to 7 */}
-    {realBlogs.length === 0 && (
-      <tr>
-        <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
-          No blog posts found. Click "Create New Blog" to get started!
-        </td>
-      </tr>
-    )}
-
-    {/* 2. Blog Rows */}
-    {realBlogs.map((blog) => (
-      <tr key={blog.id} className="hover:bg-slate-50 transition-colors group">
-        <td className="px-6 py-4">
-          <p className="font-bold text-slate-900 mb-0.5">{blog.title}</p>
-          <p className="text-xs text-slate-500 font-mono">/{blog.slug}</p>
-        </td>
-        <td className="px-6 py-4">
-          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold ${
-            blog.status === 'PUBLISHED' ? 'bg-emerald-100 text-emerald-800' :
-            blog.status === 'DRAFT' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
-          }`}>
-            {blog.status === 'PUBLISHED' && <CheckCircle2 size={12}/>}
-            {blog.status}
-          </span>
-        </td>
-        <td className="px-6 py-4">
-          {blog.seoTitle && blog.seoDesc ? (
-            <span className="text-emerald-600 text-xs font-bold flex items-center gap-1"><CheckCircle2 size={14}/> Complete</span>
-          ) : (
-            <span className="text-rose-600 text-xs font-bold flex items-center gap-1"><AlertCircle size={14}/> Needs Work</span>
-          )}
-        </td>
-        <td className="px-6 py-4 text-slate-600 font-medium">
-          {blog.category || "Uncategorized"}
-        </td>
-        <td className="px-6 py-4">
-          <HomeToggle id={blog.id} initialValue={blog.isHome || false} />
-        </td>
-        <td className="px-6 py-4 text-slate-500 text-xs">
-          {blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', {
-            month: 'short', day: 'numeric', year: 'numeric'
-          }) : "N/A"}
-        </td>
-        <td className="px-6 py-4 flex items-center gap-3 justify-end">
-          <Link href={`/admin/blogs/${blog.id}`} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
-            <Edit size={18} />
-          </Link>
-          <DeleteBlogButton id={blog.id} title={blog.title} />
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
+          <table className="w-full text-left text-sm border-collapse">
+            <thead className="bg-slate-50 border-b border-slate-100 text-xs uppercase text-slate-500 font-bold tracking-wider">
+              <tr>
+                <th className="px-6 py-4">Title</th>
+                <th className="px-6 py-4">Status</th>
+                <th className="px-6 py-4">SEO</th>
+                <th className="px-6 py-4">Category</th>
+                <th className="px-6 py-4">Is Home</th>
+                <th className="px-6 py-4">Date</th>
+                <th className="px-6 py-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {realBlogs.length === 0 ? (
+                <tr>
+                  <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+                    No blog posts found. Click "Create New Blog" to get started!
+                  </td>
+                </tr>
+              ) : (
+                realBlogs.map((blog) => (
+                  <tr key={blog.id} className="hover:bg-slate-50 transition-colors group">
+                    <td className="px-6 py-4">
+                      <p className="font-bold text-slate-900 mb-0.5">{blog.title}</p>
+                      <p className="text-xs text-slate-500 font-mono">/{blog.slug}</p>
+                    </td>
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-black uppercase ${
+                        blog.status === 'PUBLISHED' ? 'bg-emerald-100 text-emerald-800' :
+                        blog.status === 'DRAFT' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
+                      }`}>
+                        {blog.status === 'PUBLISHED' && <CheckCircle2 size={10}/>}
+                        {blog.status}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4">
+                      {blog.seoTitle?.trim() && blog.seoDesc?.trim() ? (
+                        <span className="text-emerald-600 text-[10px] font-black uppercase flex items-center gap-1">
+                          <CheckCircle2 size={12}/> Optimized
+                        </span>
+                      ) : (
+                        <span className="text-rose-600 text-[10px] font-black uppercase flex items-center gap-1">
+                          <AlertCircle size={12}/> Incomplete
+                        </span>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 text-slate-600 font-medium text-xs">
+                      {blog.category || "General"}
+                    </td>
+                    <td className="px-6 py-4">
+                      <HomeToggle id={blog.id} initialValue={blog.isHome || false} />
+                    </td>
+                    <td className="px-6 py-4 text-slate-500 text-xs font-medium">
+                      {blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', {
+                        month: 'short', day: 'numeric', year: 'numeric'
+                      }) : "---"}
+                    </td>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-2 justify-end">
+                        <Link href={`/admin/blogs/${blog.id}`} className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all">
+                          <Edit size={16} />
+                        </Link>
+                        <DeleteBlogButton id={blog.id} title={blog.title} />
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
