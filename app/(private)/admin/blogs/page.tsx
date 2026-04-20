@@ -77,89 +77,71 @@ export default async function BlogsListingPage() {
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            {/* <thead className="bg-slate-50 border-b border-slate-100 text-xs uppercase text-slate-500 font-bold tracking-wider"> */}
-         <thead className="bg-slate-50 border-b border-slate-100 text-xs uppercase text-slate-500 font-bold tracking-wider">
-  <tr>
-    <th className="px-6 py-4">Title</th>
-    <th className="px-6 py-4">Status</th>
-    <th className="px-6 py-4">SEO</th>
-    <th className="px-6 py-4">Category</th>
-    <th className="px-6 py-4">Is Home</th>
-    <th className="px-6 py-4">Date</th>
-    <th className="px-6 py-4 text-right">Actions</th>
-  </tr>
-</thead>   <tbody className="divide-y divide-slate-100">
-              
-              {/* Handle Empty State */}
-              {realBlogs.length === 0 && (
-                <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-slate-500">
-                    No blog posts found. Click "Create New Blog" to get started!
-                  </td>
-                </tr>
-              )}
-
-              {/* Map over REAL Database Blogs */}
-              {realBlogs.map((blog) => (
-             <tr key={blog.id} className="hover:bg-slate-50 transition-colors group">
-  <td className="px-6 py-4">
-    <p className="font-bold text-slate-900 mb-0.5">{blog.title}</p>
-    <p className="text-xs text-slate-500 font-mono">/{blog.slug}</p>
-  </td>
-  
-  <td className="px-6 py-4">
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold ${
-      blog.status === 'PUBLISHED' ? 'bg-emerald-100 text-emerald-800' :
-      blog.status === 'DRAFT' ? 'bg-amber-100 text-amber-800' :
-      'bg-blue-100 text-blue-800'
-    }`}>
-      {blog.status === 'PUBLISHED' && <CheckCircle2 size={12}/>}
-      {blog.status}
-    </span>
-  </td>
-
-  <td className="px-6 py-4">
-    {blog.seoTitle && blog.seoDesc ? (
-      <span className="text-emerald-600 text-xs font-bold flex items-center gap-1"><CheckCircle2 size={14}/> Complete</span>
-    ) : (
-      <span className="text-red-600 text-xs font-bold flex items-center gap-1"><AlertCircle size={14}/> Needs Work</span>
+  <thead className="bg-slate-50 border-b border-slate-100 text-xs uppercase text-slate-500 font-bold tracking-wider">
+    <tr>
+      <th className="px-6 py-4">Title</th>
+      <th className="px-6 py-4">Status</th>
+      <th className="px-6 py-4">SEO</th>
+      <th className="px-6 py-4">Category</th>
+      <th className="px-6 py-4">Is Home</th>
+      <th className="px-6 py-4">Date</th>
+      <th className="px-6 py-4 text-right">Actions</th>
+    </tr>
+  </thead>
+  <tbody className="divide-y divide-slate-100">
+    {/* 1. Empty State - Updated colSpan to 7 */}
+    {realBlogs.length === 0 && (
+      <tr>
+        <td colSpan={7} className="px-6 py-12 text-center text-slate-500">
+          No blog posts found. Click "Create New Blog" to get started!
+        </td>
+      </tr>
     )}
-  </td>
 
-  <td className="px-6 py-4 text-slate-600 font-medium">
-    {blog.category || "Uncategorized"}
-  </td>
-
-  {/* --- UPDATED SECTION: SHOW TRUE / FALSE --- */}
-  {/* <td className="px-6 py-4">
-    {blog.isHome ? (
-      <span className="text-xs font-black text-indigo-600 uppercase tracking-widest">True</span>
-    ) : (
-      <span className="text-xs font-bold text-slate-300 uppercase tracking-widest">False</span>
-    )}
-  </td> */}
-
-  <td className="px-6 py-4">
-     {/* Integrated Toggle Component */}
-     <HomeToggle id={blog.id} initialValue={blog.isHome || false} />
-  </td>
-
-  <td className="px-6 py-4 text-slate-500 text-xs">
-    {blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', {
-      month: 'short', day: 'numeric', year: 'numeric'
-    }) : "N/A"}
-  </td>
-
-  <td className="px-6 py-4 flex items-center gap-3 justify-end">
-    <Link href={`/admin/blogs/${blog.id}`} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
-      <Edit size={18} />
-    </Link>
-    <DeleteBlogButton id={blog.id} title={blog.title} />
-  </td>
-</tr>
-              ))}
-            </tbody>
-          </table>
+    {/* 2. Blog Rows */}
+    {realBlogs.map((blog) => (
+      <tr key={blog.id} className="hover:bg-slate-50 transition-colors group">
+        <td className="px-6 py-4">
+          <p className="font-bold text-slate-900 mb-0.5">{blog.title}</p>
+          <p className="text-xs text-slate-500 font-mono">/{blog.slug}</p>
+        </td>
+        <td className="px-6 py-4">
+          <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold ${
+            blog.status === 'PUBLISHED' ? 'bg-emerald-100 text-emerald-800' :
+            blog.status === 'DRAFT' ? 'bg-amber-100 text-amber-800' : 'bg-blue-100 text-blue-800'
+          }`}>
+            {blog.status === 'PUBLISHED' && <CheckCircle2 size={12}/>}
+            {blog.status}
+          </span>
+        </td>
+        <td className="px-6 py-4">
+          {blog.seoTitle && blog.seoDesc ? (
+            <span className="text-emerald-600 text-xs font-bold flex items-center gap-1"><CheckCircle2 size={14}/> Complete</span>
+          ) : (
+            <span className="text-rose-600 text-xs font-bold flex items-center gap-1"><AlertCircle size={14}/> Needs Work</span>
+          )}
+        </td>
+        <td className="px-6 py-4 text-slate-600 font-medium">
+          {blog.category || "Uncategorized"}
+        </td>
+        <td className="px-6 py-4">
+          <HomeToggle id={blog.id} initialValue={blog.isHome || false} />
+        </td>
+        <td className="px-6 py-4 text-slate-500 text-xs">
+          {blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', {
+            month: 'short', day: 'numeric', year: 'numeric'
+          }) : "N/A"}
+        </td>
+        <td className="px-6 py-4 flex items-center gap-3 justify-end">
+          <Link href={`/admin/blogs/${blog.id}`} className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+            <Edit size={18} />
+          </Link>
+          <DeleteBlogButton id={blog.id} title={blog.title} />
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
         </div>
       </div>
     </div>
