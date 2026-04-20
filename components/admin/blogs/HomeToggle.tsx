@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { updateBlogPost } from "@/lib/actions/blog.actions";
-import { Loader2 } from "lucide-react";
+import { Loader2, Check } from "lucide-react";
 
 interface HomeToggleProps {
   id: number;
@@ -15,15 +15,15 @@ export default function HomeToggle({ id, initialValue }: HomeToggleProps) {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleToggle = async () => {
+    if (isLoading) return;
     try {
       setIsLoading(true);
-      // We only send the field we want to update
       const result = await updateBlogPost(id, { isHome: !isHome });
       
       if (result.success) {
         setIsHome(!isHome);
       } else {
-        alert("Failed to update featured status.");
+        alert("Transmission Error: Could not update status.");
       }
     } catch (error) {
       console.error("Toggle Error:", error);
@@ -33,32 +33,43 @@ export default function HomeToggle({ id, initialValue }: HomeToggleProps) {
   };
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 group">
       <button
         type="button"
         onClick={handleToggle}
         disabled={isLoading}
-        className={`relative w-10 h-5 rounded-full transition-colors duration-300 focus:outline-none ${
-          isHome ? "bg-indigo-600 shadow-inner" : "bg-slate-200"
-        } ${isLoading ? "opacity-50 cursor-wait" : "cursor-pointer"}`}
+        className={`relative w-12 h-6 rounded-full transition-all duration-500 ease-in-out focus:outline-none border-2 ${
+          isHome 
+            ? "bg-indigo-600 border-indigo-600 shadow-[0_0_10px_rgba(79,70,229,0.4)]" 
+            : "bg-slate-100 border-slate-200"
+        } ${isLoading ? "opacity-50 cursor-wait" : "cursor-pointer hover:scale-105 active:scale-95"}`}
       >
+        {/* Toggle Knob */}
         <motion.div
           initial={false}
-          animate={{ x: isHome ? 22 : 2 }}
-          transition={{ type: "spring", stiffness: 500, damping: 30 }}
-          className="absolute top-1 w-3 h-3 bg-white rounded-full shadow-sm"
-        />
+          animate={{ 
+            x: isHome ? 24 : 2,
+            scale: isLoading ? 0.8 : 1
+          }}
+          transition={{ type: "spring", stiffness: 600, damping: 35 }}
+          className="absolute top-0 w-5 h-5 bg-white rounded-full shadow-md flex items-center justify-center"
+        >
+          {isHome && !isLoading && <div className="w-1 h-1 bg-green-600 rounded-full" />}
+        </motion.div>
       </button>
       
-      <div className="flex items-center gap-1.5 min-w-[30px]">
+      {/* Label with Micro-interactions */}
+      <div className="flex items-center gap-2 min-w-[40px]">
         {isLoading ? (
-          <Loader2 size={12} className="animate-spin text-slate-400" />
+          <Loader2 size={12} className="animate-spin text-indigo-500" />
         ) : (
-          <span className={`text-[10px] font-black uppercase tracking-widest ${
-            isHome ? "text-indigo-600" : "text-slate-400"
-          }`}>
-            {isHome ? "On" : "Off"}
-          </span>
+          <motion.span 
+            initial={false}
+            animate={{ color: isHome ? "#008000" : "##c4182f" }}
+            className={`text-[10px] font-black uppercase tracking-[0.1em] transition-colors`}
+          >
+            {isHome ? "Active" : "Hidden"}
+          </motion.span>
         )}
       </div>
     </div>

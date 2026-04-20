@@ -486,6 +486,7 @@ import {
   Layers, // Added Layers icon for subcategory
 } from "lucide-react";
 import { saveBlogPost, updateBlogPost } from "@/lib/actions/blog.actions";
+import CustomRichEditor from "./CustomRichEditor";
 
 // interface BlogEditorFormProps {
 //   initialData?: any;
@@ -853,68 +854,18 @@ export default function BlogEditorForm({
 
           {/* EDITOR AREA */}
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
-            <div className="bg-slate-50 border-b border-slate-200 px-4 py-3 flex items-center gap-1 overflow-x-auto">
-              <select className="text-sm border border-slate-200 rounded-lg bg-white text-slate-700 py-1.5 px-2 outline-none cursor-pointer hover:border-slate-300">
-                <option>Paragraph</option>
-                <option>Heading 2</option>
-                <option>Heading 3</option>
-              </select>
-              <div className="w-px h-6 bg-slate-200 mx-2"></div>
-              <button
-                type="button"
-                className="p-2 hover:bg-slate-200 rounded-lg text-slate-700 transition-colors"
-              >
-                <Bold size={16} />
-              </button>
-              <button
-                type="button"
-                className="p-2 hover:bg-slate-200 rounded-lg text-slate-700 transition-colors"
-              >
-                <Italic size={16} />
-              </button>
-              <div className="w-px h-6 bg-slate-200 mx-2"></div>
-              <button
-                type="button"
-                className="p-2 hover:bg-slate-200 rounded-lg text-slate-700 transition-colors"
-              >
-                <List size={16} />
-              </button>
-              <button
-                type="button"
-                className="p-2 hover:bg-slate-200 rounded-lg text-slate-700 transition-colors"
-              >
-                <Quote size={16} />
-              </button>
-              <div className="w-px h-6 bg-slate-200 mx-2"></div>
-              <button
-                type="button"
-                className="p-2 hover:bg-slate-200 rounded-lg text-slate-700 transition-colors"
-              >
-                <LinkIcon size={16} />
-              </button>
-              <button
-                type="button"
-                className="p-2 hover:bg-slate-200 rounded-lg text-slate-700 transition-colors"
-              >
-                <ImageIcon size={16} />
-              </button>
-              <div className="w-px h-6 bg-slate-200 mx-2"></div>
-              <button
-                type="button"
-                className="p-1.5 px-3 hover:bg-indigo-50 border border-transparent hover:border-indigo-100 rounded-lg text-indigo-700 flex items-center gap-1.5 text-xs font-bold transition-colors"
-              >
-                <LayoutTemplate size={14} /> Insert Block
-              </button>
-            </div>
+          
 
-            <div className="p-6 md:p-8 flex-1">
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                className="w-full h-125 resize-none outline-none text-slate-800 leading-relaxed bg-transparent min-h-[500px]"
-                placeholder="Write your article content here..."
-              ></textarea>
-            </div>
+
+            <div className="space-y-2 p-4">
+            <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-4">
+              Content
+            </label>
+            <CustomRichEditor 
+              value={content} 
+              onChange={(html) => setContent(html)} 
+            />
+          </div>
           </div>
         </div>
 

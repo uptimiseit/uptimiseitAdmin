@@ -15,6 +15,13 @@
       "when": 1776419395445,
       "tag": "0001_boring_crusher_hogan",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1776708523322,
+      "tag": "0002_shocking_ben_parker",
+      "breakpoints": true
     }
   ]
 }

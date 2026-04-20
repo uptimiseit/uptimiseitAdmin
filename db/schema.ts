@@ -102,7 +102,12 @@ export const caseStudies = pgTable("case_studies", {
 
 
 
-
+export const subscribers = pgTable("subscribers", {
+  id: serial("id").primaryKey(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  status: varchar("status", { length: 20 }).default("ACTIVE"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
 
 
 

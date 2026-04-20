@@ -10,8 +10,6 @@ import {
   Users, Rocket,
   Activity
 } from "lucide-react";
-import AdminSidebar from "@/components/admin/AdminSidebar";
-// import AdminSidebar from "@/components/AdminSidebar";
 
 // --- MOCK DATA ---
 const kpiData = [
@@ -51,8 +49,7 @@ export default function AdminDashboardPage() {
   return (
     <div className="min-h-screen flex bg-slate-50 font-sans text-slate-900 selection:bg-indigo-200">
       
-      {/* 1. IMPORTED REUSABLE SIDEBAR COMPONENT */}
-      {/* <AdminSidebar /> */}
+  
 
       {/* 2. MAIN DASHBOARD CONTENT */}
       {/* Note the lg:ml-64 here. This ensures the main content avoids the fixed 64-width sidebar on desktop. */}

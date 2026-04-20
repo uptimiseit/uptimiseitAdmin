@@ -84,12 +84,11 @@ export default async function BlogsListingPage() {
     <th className="px-6 py-4">Status</th>
     <th className="px-6 py-4">SEO</th>
     <th className="px-6 py-4">Category</th>
-    <th className="px-6 py-4">Is Home</th> {/* Matches True/False */}
+    <th className="px-6 py-4">Is Home</th>
     <th className="px-6 py-4">Date</th>
     <th className="px-6 py-4 text-right">Actions</th>
   </tr>
-</thead>
-            <tbody className="divide-y divide-slate-100">
+</thead>   <tbody className="divide-y divide-slate-100">
               
               {/* Handle Empty State */}
               {realBlogs.length === 0 && (
