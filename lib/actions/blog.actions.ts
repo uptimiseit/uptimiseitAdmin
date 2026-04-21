@@ -171,6 +171,9 @@ export async function updateBlogPost(id: number, formData: any) {
 
 // Add this to the bottom of lib/actions/blog.actions.ts    lib/actions/blog.actions.ts
 
+
+
+
 export async function deleteBlogPost(id: number) {
   try {
     // 1. Fetch the blog first so we know its title for the activity log

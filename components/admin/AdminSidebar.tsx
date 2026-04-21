@@ -74,6 +74,8 @@ export default function AdminSidebar() {
             <NavLink href="/admin/case-studies" icon={FileText} label="Case Studies" />
             <NavLink href="/admin/briefs" icon={FileText} label="Briefs" />
             <NavLink href="/admin/intake" icon={FileText} label="Project Intake" />
+            <NavLink href="/admin/newsLetter" icon={FileText} label="Newsletter" />
+
 
           </div>
         </div>

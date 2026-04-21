@@ -58,7 +58,7 @@ export default async function NewsletterPage() {
                 <th className="px-6 py-4">Subscriber Email</th>
                 <th className="px-6 py-4">Status</th>
                 <th className="px-6 py-4">Joined Date</th>
-                <th className="px-6 py-4 text-right">Management</th>
+                {/* <th className="px-6 py-4 text-right">Management</th> */}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
