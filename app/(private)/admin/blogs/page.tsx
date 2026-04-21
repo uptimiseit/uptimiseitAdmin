@@ -10,11 +10,11 @@ import HomeToggle from "@/components/admin/blogs/HomeToggle";
 
 export const dynamic = "force-dynamic";
 
+
 export default async function BlogsListingPage() {
+
   const response = await getBlogs();
   const realBlogs = response.data || [];
-
-  // Summary Stats
   const publishedCount = realBlogs.filter((b) => b.status === "PUBLISHED").length;
   const draftCount = realBlogs.filter((b) => b.status === "DRAFT").length;
   const missingSeoCount = realBlogs.filter((b) => !b.seoTitle?.trim() || !b.seoDesc?.trim()).length;
