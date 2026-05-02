@@ -8,6 +8,7 @@ import { db } from "@/lib/db";
 import { projectIntake } from "@/db/schema";
 import { desc } from "drizzle-orm";
 import { format } from "date-fns";
+import IntakeActions from "@/components/IntakeActions";
 
 export const dynamic = "force-dynamic";
 
@@ -132,7 +133,7 @@ export default async function ProjectIntakeListingPage() {
                   </td>
 
                   {/* Actions */}
-                  <td className="px-8 py-6 text-right">
+                  {/* <td className="px-8 py-6 text-right">
                     <div className="flex justify-end items-center gap-4 text-slate-400">
                       <button className="hover:text-blue-600 transition-colors">
                         <MoreHorizontal size={20} />
@@ -141,8 +142,18 @@ export default async function ProjectIntakeListingPage() {
                         <Trash2 size={18} />
                       </button>
                     </div>
-                  </td>
+                  </td> */}
 
+<td className="px-8 py-6 text-right">
+  <div className="flex justify-end items-center gap-3">
+    {/* Use the new Client Component here */}
+    <IntakeActions log={log} />
+    
+    <button className="p-2 text-slate-300 hover:text-red-500 transition-colors">
+      <Trash2 size={18} />
+    </button>
+  </div>
+</td>
                 </tr>
               ))}
             </tbody>

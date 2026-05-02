@@ -215,3 +215,14 @@ export const projectIntake = pgTable('project_intake', {
   documentUrl: text('document_url'), // Stores the link to the uploaded file
   createdAt: timestamp('created_at').defaultNow(),
 });
+
+export const partnerIntake = pgTable('partner_intake', {
+  id: serial('id').primaryKey(),
+  fullName: varchar('full_name', { length: 255 }).notNull(),
+  workEmail: varchar('work_email', { length: 255 }).notNull(),
+  companyName: varchar('company_name', { length: 255 }),
+  country: varchar('country', { length: 100 }).notNull(),
+  partnerType: varchar('partner_type', { length: 100 }).notNull(), // e.g., Agency, Referral, Tech
+  message: text('message').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+});
