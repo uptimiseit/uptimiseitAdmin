@@ -417,13 +417,18 @@
 //   );
 // }
 
-// import CaseStudyForm from "@/components/admin/CaseStudyForm";
 import CaseStudyForm from "@/components/admin/caseStudies/CaseStudyForm";
 import { getCaseStudyById } from "@/lib/actions/case-study.actions";
 import { notFound } from "next/navigation";
 
-export default async function EditPage({ params }: { params: { id: string } }) {
-  const { id } = await params; // Resolve params in Next.js 15+
+// Define params as a Promise
+interface EditPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function EditPage({ params }: EditPageProps) {
+  // Await params at the start of the function
+  const { id } = await params; 
   
   const response = await getCaseStudyById(Number(id));
 
