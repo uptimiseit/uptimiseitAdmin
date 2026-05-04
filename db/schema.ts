@@ -8,7 +8,8 @@ export const blogs = pgTable("blogs", {
   slug: varchar("slug", { length: 255 }).notNull().unique(),
   excerpt: text("excerpt"),
   content: text("content").notNull(),
-  category: varchar("category", { length: 100 }),
+  // category: varchar("category", { length: 100 }),
+  categoryId: integer("category_id").references(() => categories.id),
   // SubCategory: varchar("sub_category", { length: 100 }),
   subCategory: text("sub_category"), 
   tags: varchar("tags", { length: 255 }),
@@ -225,4 +226,15 @@ export const partnerIntake = pgTable('partner_intake', {
   partnerType: varchar('partner_type', { length: 100 }).notNull(), // e.g., Agency, Referral, Tech
   message: text('message').notNull(),
   createdAt: timestamp('created_at').defaultNow(),
+});
+
+
+export const categories = pgTable("categories", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull().unique(),
+  slug: varchar("slug", { length: 255 }).notNull().unique(),
+  description: text("description"),
+  // image: text("image"), // Optional category icon/image
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
 });

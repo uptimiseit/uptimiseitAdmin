@@ -26,16 +26,50 @@ export default function IntakeActions({ log }: { log: any }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [showMenu]);
 
-  const handleDownload = () => {
+  // const handleDownload = () => {
+  //   if (!log.documentUrl) return;
+  //   const link = document.createElement("a");
+  //   link.href = log.documentUrl; // AWS CloudFront URL
+  //   link.setAttribute("download", `${log.fullName}_specs`);
+  //   link.setAttribute("target", "_blank");
+  //   document.body.appendChild(link);
+  //   link.click();
+  //   document.body.removeChild(link);
+  //   setShowMenu(false);
+  // };
+
+  const handleDownload = async () => {
     if (!log.documentUrl) return;
-    const link = document.createElement("a");
-    link.href = log.documentUrl; // AWS CloudFront URL
-    link.setAttribute("download", `${log.fullName}_specs`);
-    link.setAttribute("target", "_blank");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    setShowMenu(false);
+
+    try {
+      // 1. Fetch the data in the background
+      const response = await fetch(log.documentUrl);
+      
+      if (!response.ok) throw new Error("Network response was not ok");
+      
+      const blob = await response.blob();
+
+      // 2. Create a local URL for the downloaded blob
+      const localUrl = window.URL.createObjectURL(blob);
+
+      // 3. Trigger the download using the local URL
+      const link = document.createElement("a");
+      link.href = localUrl;
+      
+      // This enforces the filename and prevents the cloud link from showing
+      link.setAttribute("download", `${log.fullName}_specs.pdf`); 
+      
+      document.body.appendChild(link);
+      link.click();
+
+      // 4. Cleanup memory
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(localUrl);
+      setShowMenu(false);
+    } catch (error) {
+      console.error("Download failed:", error);
+      // Optional: Add a toast notification here to tell the user the download failed
+    }
   };
 
   return (
