@@ -67,41 +67,55 @@ export const seoMetadata = pgTable("seo_metadata", {
 
 
 
+// export const caseStudies = pgTable("case_studies", {
+//   id: serial("id").primaryKey(),
+  
+//   // Core Info
+//   title: varchar("title", { length: 255 }).notNull(),
+//   slug: varchar("slug", { length: 255 }).notNull().unique(),
+//   summary: text("summary"),
+//   projectType: varchar("project_type", { length: 50 }).default("CLIENT"), // CLIENT, INTERNAL, CONCEPT
+//   industry: varchar("industry", { length: 100 }),
+  
+//   // Status & Toggles
+//   status: varchar("status", { length: 50 }).default("DRAFT"), // DRAFT, PUBLISHED
+//   isFeatured: boolean("is_featured").default(false),
+//   isConfidential: boolean("is_confidential").default(false), // Hides client name if true
+  
+//   // Complex JSONB Data Structures (Matches your spec perfectly)
+//   clientInfo: jsonb("client_info"),     // { name, type, location, duration, logo, website }
+//   heroSection: jsonb("hero_section"),   // { title, subtitle, desc, image, primaryCta, secondaryCta }
+//   problemSection: jsonb("problem_section"), // { title, desc, challenges: [{ title, desc }] }
+//   solutionSection: jsonb("solution_section"),// { title, desc, features: [{ title, desc, impact }] }
+//   techStack: jsonb("tech_stack"),       // [{ name, category, usage }]
+//   developmentProcess: jsonb("development_process"), // [{ step, title, desc }]
+//   results: jsonb("results"),            // [{ metric, value, desc }]
+//   visuals: jsonb("visuals"),            // [{ image, caption }]
+//   testimonial: jsonb("testimonial"),    // { clientName, designation, company, text, image }
+//   ctaSection: jsonb("cta_section"),     // { title, desc, buttonText, buttonLink }
+  
+//   // Relations (Internal Linking Strategy)
+//   relatedContent: jsonb("related_content"), // { serviceIds: [], solutionIds: [], blogIds: [] }
+
+//   createdAt: timestamp("created_at").defaultNow(),
+//   updatedAt: timestamp("updated_at").defaultNow(),
+// });
+
+// db/schema.ts
 export const caseStudies = pgTable("case_studies", {
   id: serial("id").primaryKey(),
-  
-  // Core Info
   title: varchar("title", { length: 255 }).notNull(),
   slug: varchar("slug", { length: 255 }).notNull().unique(),
-  summary: text("summary"),
-  projectType: varchar("project_type", { length: 50 }).default("CLIENT"), // CLIENT, INTERNAL, CONCEPT
-  industry: varchar("industry", { length: 100 }),
-  
-  // Status & Toggles
-  status: varchar("status", { length: 50 }).default("DRAFT"), // DRAFT, PUBLISHED
+  description: text("description").notNull(),
+  image: varchar("image", { length: 500 }), // URL for the featured image
+  tag: varchar("tag", { length: 100 }),      // Main tag (e.g., "Fintech")
+  technology: text("technology"),            // Comma-separated (e.g., "Next.js, Tailwind")
+  url: varchar("url", { length: 500 }),      // External project link
+  status: varchar("status", { length: 50 }).default("DRAFT"),
   isFeatured: boolean("is_featured").default(false),
-  isConfidential: boolean("is_confidential").default(false), // Hides client name if true
-  
-  // Complex JSONB Data Structures (Matches your spec perfectly)
-  clientInfo: jsonb("client_info"),     // { name, type, location, duration, logo, website }
-  heroSection: jsonb("hero_section"),   // { title, subtitle, desc, image, primaryCta, secondaryCta }
-  problemSection: jsonb("problem_section"), // { title, desc, challenges: [{ title, desc }] }
-  solutionSection: jsonb("solution_section"),// { title, desc, features: [{ title, desc, impact }] }
-  techStack: jsonb("tech_stack"),       // [{ name, category, usage }]
-  developmentProcess: jsonb("development_process"), // [{ step, title, desc }]
-  results: jsonb("results"),            // [{ metric, value, desc }]
-  visuals: jsonb("visuals"),            // [{ image, caption }]
-  testimonial: jsonb("testimonial"),    // { clientName, designation, company, text, image }
-  ctaSection: jsonb("cta_section"),     // { title, desc, buttonText, buttonLink }
-  
-  // Relations (Internal Linking Strategy)
-  relatedContent: jsonb("related_content"), // { serviceIds: [], solutionIds: [], blogIds: [] }
-
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
-
-
 
 export const subscribers = pgTable("subscribers", {
   id: serial("id").primaryKey(),
