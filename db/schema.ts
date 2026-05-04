@@ -235,6 +235,7 @@ export const categories = pgTable("categories", {
   slug: varchar("slug", { length: 255 }).notNull().unique(),
   description: text("description"),
   // image: text("image"), // Optional category icon/image
+  icon: varchar("icon", { length: 100 }),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
 });

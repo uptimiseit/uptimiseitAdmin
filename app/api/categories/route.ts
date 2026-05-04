@@ -27,12 +27,13 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, slug, description } = body;
+    const { name, slug, description, icon } = body;
 
     const newCategory = await db.insert(categories).values({
       name,
       slug,
       description,
+        icon,
     }).returning();
 
     return NextResponse.json({ success: true, data: newCategory[0] }, { status: 201, headers: corsHeaders });

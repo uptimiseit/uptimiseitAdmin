@@ -1,69 +1,3 @@
-// import { NextResponse } from "next/server";
-// import { db } from "@/lib/db";
-// import { categories } from "@/db/schema";
-// import { eq } from "drizzle-orm";
-
-// const corsHeaders = {
-//   "Access-Control-Allow-Origin": "*",
-//   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-//   "Access-Control-Allow-Headers": "Content-Type, Authorization",
-// };
-
-// // --- PUT: Update a category ---
-// export async function PUT(
-//   request: Request,
-//   { params }: { params: { id: string } }
-// ) {
-//   try {
-//     const id = Number(params.id);
-//     const body = await request.json();
-    
-//     const updated = await db
-//       .update(categories)
-//       .set({
-//         name: body.name,
-//         slug: body.slug,
-//         description: body.description,
-//         isActive: body.isActive,
-//       })
-//       .where(eq(categories.id, id))
-//       .returning();
-
-
-//       console.log("Update result:", updated); // Debug log
-//     if (updated.length === 0) {
-//       return NextResponse.json({ success: false, message: "Not found" }, { status: 404 });
-//     }
-
-//     return NextResponse.json({ success: true, data: updated[0] }, { headers: corsHeaders });
-//   } catch (error) {
-//     return NextResponse.json({ success: false, message: "Update failed" }, { status: 400, headers: corsHeaders });
-//   }
-// }
-
-// // --- DELETE: Remove a category ---
-// export async function DELETE(
-//   request: Request,
-//   { params }: { params: { id: string } }
-// ) {
-//   try {
-//     const id = Number(params.id);
-
-//     const deleted = await db
-//       .delete(categories)
-//       .where(eq(categories.id, id))
-//       .returning();
-
-//     if (deleted.length === 0) {
-//       return NextResponse.json({ success: false, message: "Category not found" }, { status: 404 });
-//     }
-
-//     return NextResponse.json({ success: true, message: "Category deleted" }, { headers: corsHeaders });
-//   } catch (error) {
-//     return NextResponse.json({ success: false, message: "Deletion failed" }, { status: 500, headers: corsHeaders });
-//   }
-// }
-
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { categories } from "@/db/schema";
@@ -95,6 +29,7 @@ export async function PUT(
       .set({
         name: body.name,
         slug: body.slug,
+        icon: body.icon,
         description: body.description,
         isActive: body.isActive ?? true,
       })
