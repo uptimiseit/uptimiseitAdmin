@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { db } from "@/lib/db";
 import { solutions } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -8,12 +8,15 @@ export async function OPTIONS() {
   return withCors(new NextResponse(null, { status: 204 }));
 }
 
+// Update the type definition for params to be a Promise
 export async function GET(
-  request: Request,
-  { params }: { params: { slug: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> } 
 ) {
   try {
-    const { slug } = params;
+    // CRITICAL: You must await params in Next.js 15
+    const { slug } = await params; 
+
     const [solutionData] = await db
       .select()
       .from(solutions)
@@ -27,8 +30,9 @@ export async function GET(
 
     return withCors(NextResponse.json({ success: true, data: solutionData }));
   } catch (error) {
+    console.error("API_ERROR:", error);
     return withCors(
-      NextResponse.json({ success: false, message: "Error" }, { status: 500 })
+      NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 })
     );
   }
 }
