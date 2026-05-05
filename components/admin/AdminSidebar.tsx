@@ -71,6 +71,7 @@ export default function AdminSidebar() {
             <NavLink href="/admin/solutions" icon={FileText} label="Solutions" />
             <NavLink href="/admin/industries" icon={FileText} label="Industries" />
             <NavLink href="/admin/category" icon={FileText} label="Category" />
+            <NavLink href="/admin/solutions" icon={FileText} label="Solutions" />
             <NavLink href="/admin/blogs" icon={FileText} label="Blogs" />
             <NavLink href="/admin/case-studies" icon={FileText} label="Case Studies" />
             <NavLink href="/admin/briefs" icon={FileText} label="Briefs" />

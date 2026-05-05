@@ -253,3 +253,30 @@ export const categories = pgTable("categories", {
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+
+export const solutions = pgTable("solutions", {
+  id: serial("id").primaryKey(),
+  
+  // SUBMENU & SEO DATA
+  title: varchar("title", { length: 255 }).notNull(), // e.g. "MVP Development"
+  slug: varchar("slug", { length: 255 }).unique().notNull(), 
+  description: text("description").notNull(), // Small snippet for dropdown
+  icon: varchar("icon", { length: 100 }).notNull(), // Lucide icon name
+  
+  // DYNAMIC CONTENT SECTIONS (JSONB)
+  content: jsonb("content").$type<{
+    hero: { badge: string; heading: string; accent: string; description: string };
+    challenges: { title: string; desc: string; icon: string }[];
+    approach: { heading: string; description: string; points: string[] };
+    buildItems: { title: string; desc: string; icon: string }[];
+    techStack: string[];
+    process: { step: string; title: string; desc: string }[];
+    benefits: { title: string; desc: string; icon: string }[];
+    edge: { heading: string; description: string; features: { title: string; desc: string }[] };
+    cta: { heading: string; accent: string; description: string };
+  }>().notNull(),
+
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
